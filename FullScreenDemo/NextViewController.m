@@ -9,7 +9,7 @@
 #import "NextViewController.h"
 #import "AppDelegate.h"
 @interface NextViewController ()
-
+@property (nonatomic, strong)UIView * redView;
 @end
 
 @implementation NextViewController
@@ -18,10 +18,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    UIView * testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 280)];
-    testView.backgroundColor = [UIColor redColor];
-    [self.view addSubview:testView];
-    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(20, testView.frame.size.height + 10, 64, 30)];
+    self.navigationController.navigationBar.translucent = NO;
+    self.redView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 280)];
+    self.redView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:self.redView];
+    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.redView.frame.size.height + 10, 64, 30)];
     [btn setBackgroundColor:[UIColor blueColor]];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn setTitle:@"ratation" forState:UIControlStateNormal];
@@ -44,8 +45,10 @@
     sender.selected = !sender.isSelected;
     if (sender.isSelected) {
         [self orientation:UIInterfaceOrientationLandscapeLeft];
+        //TODO:更新UI
     }else{
         [self orientation:UIInterfaceOrientationPortrait];
+        //TODO:更新UI
     }
 }
 #pragma mark - Ratation
@@ -53,6 +56,7 @@
 {
     NSNumber * number = [NSNumber numberWithInt:ratation];
     [[UIDevice currentDevice] setValue:number forKey:@"orientation"];
+    
 }
 /*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -68,13 +72,13 @@
 {
     return UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft;
 }
-- (BOOL)prefersStatusBarHidden
+- (BOOL)shouldAutorotate
 {
     return NO;
 }
-- (BOOL)shouldAutorotate
+- (BOOL)prefersStatusBarHidden
 {
-    return YES;
+    return NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
